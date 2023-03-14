@@ -1,0 +1,45 @@
+{
+    "commons": {
+        "start": "Empezar",
+        "begin": "Comenzar",
+        "next": "Siguiente",
+        "continue": "Continuar",
+        "decline": "Rechazar",
+        "back": "Volver",
+        "yes": "Sí",
+        "no": "No",
+        "ok": "Ok",
+        "go_home": "Volver al inicio",
+        "back_to_top": "Volver al inicio",
+        "copy": "Copiar",
+        "cancel": "Cancelar",
+        "loading": "Cargando",
+        "loading_ellipsis": "Cargando...",
+        "request": "Solicitar",
+        "more_information": "Más Información",
+        "accept": "Aceptar",
+        "available": "Disponible",
+        "confirm": "Confirmar",
+        "error": "Error",
+        "success": "¡Éxito!",
+        "general_error": "Ocurrió un error",
+        "view_more": "Ver más",
+        "view_less": "Ver menos",
+        "maintentance_message": "Nos encontramos en mantenimiento",
+        "hasConnection": "Se ha restablecido la conexion",
+        "lostConnection": "No tienes conexion a internet"
+    },
+    "auth": {
+        "landing_screen": {
+            "register": "Registrarme",
+            "login": "Ingresar"
+        }
+    },
+    "home": {
+        "landing_screen": {
+            "wallet": "Wallet",
+            "register": "Registrarme",
+            "login": "Ingresar"
+        }
+    }
+}
