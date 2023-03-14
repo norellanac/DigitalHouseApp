@@ -5,13 +5,15 @@
  * @format
  */
 
-import React, {useEffect} from 'react';
-import type {PropsWithChildren} from 'react';
-import {SafeAreaView, StyleSheet, Text, useColorScheme} from 'react-native';
+import React, { useEffect } from 'react';
+import type { PropsWithChildren } from 'react';
+import { SafeAreaView, StyleSheet, Text, useColorScheme } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {setI18nConfig, translate} from './src/helpers/i18n';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { setI18nConfig, translate } from './src/helpers/i18n';
 import * as RNLocalize from 'react-native-localize';
+import { NativeBaseProvider } from 'native-base';
+import { RootNavigator } from './src/routes/RootNavigator';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -37,29 +39,10 @@ function App(): JSX.Element {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <Text>hey - {translate('commons.start')} - hey</Text>
-    </SafeAreaView>
+    <NativeBaseProvider>
+      <RootNavigator />
+    </NativeBaseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
