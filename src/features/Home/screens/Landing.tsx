@@ -12,12 +12,18 @@ import {
 
 import React from 'react';
 import { translate } from '../../../helpers/i18n';
+import useProducts from '../../../hooks/useProducts';
+import { selectProducts } from '../../../redux/slices/productSlice';
+import { useAppSelector } from '../../../redux/useAppSelector';
 import { Footer } from '../components/templates/Footer';
 import { HomeStackParams } from './HomeStack';
 
 interface Props extends StackScreenProps<HomeStackParams, 'Home'> {}
 
 export const Landing = ({route, navigation}: Props) => {
+  useProducts();
+  const data = useAppSelector(selectProducts);
+  console.log('data', data ? data[0] : 'no data1');
   return (
     <Box alignItems="center" justifyContent="center" flex={1}>
       <Box

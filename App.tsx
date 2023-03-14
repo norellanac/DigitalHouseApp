@@ -6,18 +6,13 @@
  */
 
 import React, { useEffect } from 'react';
-import type { PropsWithChildren } from 'react';
-import { SafeAreaView, StyleSheet, Text, useColorScheme } from 'react-native';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { setI18nConfig, translate } from './src/helpers/i18n';
+import { setI18nConfig } from './src/helpers/i18n';
 import * as RNLocalize from 'react-native-localize';
 import { NativeBaseProvider } from 'native-base';
 import { RootNavigator } from './src/routes/RootNavigator';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+import { store } from './src/redux/stores/store';
+import { Provider } from 'react-redux';
 
 const LOCALIZATION_EVENT = 'change';
 
@@ -32,16 +27,13 @@ function App(): JSX.Element {
       RNLocalize.removeEventListener(LOCALIZATION_EVENT, setI18nConfig);
     };
   }, []);
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
   return (
-    <NativeBaseProvider>
-      <RootNavigator />
-    </NativeBaseProvider>
+    <Provider store={store}>
+      <NativeBaseProvider>
+        <RootNavigator />
+      </NativeBaseProvider>
+    </Provider>
   );
 }
 
