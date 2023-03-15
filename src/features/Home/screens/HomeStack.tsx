@@ -2,11 +2,12 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { Landing } from './Landing';
-import { Dashboard } from './Dashboard';
+import { ProductDetails } from './ProductDetails';
+import { Product } from '../../../redux/slices/productSlice';
 
 export type HomeStackParams = {
   Home: undefined;
-  Dashboard: undefined;
+  ProductDetails: { product: Product };
 };
 
 const HomeStack = createStackNavigator();
@@ -17,7 +18,7 @@ export const HomeNavigation = () => {
       screenOptions={{ headerShown: false }}
       initialRouteName="Home">
       <HomeStack.Screen name="Home" component={Landing} />
-      <HomeStack.Screen name="Dashboard" component={Dashboard} />
+      <HomeStack.Screen name="ProductDetails" component={ProductDetails} />
     </HomeStack.Navigator>
   );
 };
