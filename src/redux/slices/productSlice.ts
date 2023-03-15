@@ -12,10 +12,16 @@ export interface Product {
 
 interface ProductState {
   products?: Product[];
+  redemProducts: Product[];
+  availableProducts: Product[];
+  availablePoints: number;
 }
 
 const initialState: ProductState = {
   products: [],
+  redemProducts: [],
+  availableProducts: [],
+  availablePoints: 0,
 };
 
 export const productSlice = createSlice({
@@ -31,7 +37,7 @@ export const productSlice = createSlice({
   },
 });
 
-export const selectProducts = (state: RootState) => state.products.products;
+export const selectProducts = (state: RootState) => state.products;
 export const { clear, setProducts } = productSlice.actions;
 // ? Export the productSlice.reducer to be included in the store.
 export default productSlice.reducer;

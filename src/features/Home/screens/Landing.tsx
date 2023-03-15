@@ -1,111 +1,180 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import {
-  AspectRatio,
+  Avatar,
   Box,
-  Center,
+  Button,
+  FlatList,
   Heading,
   HStack,
-  Image,
+  Spacer,
   Stack,
   Text,
+  VStack,
 } from 'native-base';
 
-import React from 'react';
-import { translate } from '../../../helpers/i18n';
+import React, { useEffect, useState } from 'react';
 import useProducts from '../../../hooks/useProducts';
-import { selectProducts } from '../../../redux/slices/productSlice';
-import { useAppSelector } from '../../../redux/useAppSelector';
-import { Footer } from '../components/templates/Footer';
 import { HomeStackParams } from './HomeStack';
 
 interface Props extends StackScreenProps<HomeStackParams, 'Home'> {}
 
-export const Landing = ({route, navigation}: Props) => {
-  useProducts();
-  const data = useAppSelector(selectProducts);
-  console.log('data', data ? data[0] : 'no data1');
+export const Landing = ({ route, navigation }: Props) => {
+  const { isLoading, redemProducts, availablePoints, availableProducts, data } =
+    useProducts();
+
+  const [displayAllProducts, setDisplayAllProducts] = useState(true);
+  const [products, setProducts] = useState(data);
+
+  const setRecords = (option: number) => {
+    if (option === 1) {
+      setProducts(availableProducts);
+      setDisplayAllProducts(false);
+    } else if (option === 2) {
+      setProducts(redemProducts);
+      setDisplayAllProducts(false);
+    } else {
+      setDisplayAllProducts(true);
+      setProducts(data);
+    }
+  };
+
+  useEffect(() => {
+    setRecords(3);
+  }, [data]);
   return (
-    <Box alignItems="center" justifyContent="center" flex={1}>
+    <Box flex={1}>
+      <Stack space={0}>
+        <Heading size="md" marginX={5} marginTop={5}>
+          Bienvenido de vuelta!
+        </Heading>
+        <Text fontSize="lg" fontWeight="500" marginX={5}>
+          Ruben Rodriguez
+        </Text>
+        <Text fontSize="lg" fontWeight="black" marginX={5} marginY={5}>
+          TUS PUNTOS
+        </Text>
+      </Stack>
       <Box
-        rounded="lg"
-        overflow="hidden"
-        borderColor="coolGray.200"
-        borderWidth="1"
-        _dark={{
-          borderColor: 'coolGray.600',
-          backgroundColor: 'gray.700',
-        }}
-        _web={{
-          shadow: 2,
-          borderWidth: 0,
-        }}
-        _light={{
-          backgroundColor: 'gray.50',
+        bg="blue.600"
+        marginX={10}
+        p="12"
+        rounded="xl"
+        _text={{
+          fontSize: 'md',
+          fontWeight: 'medium',
+          color: 'warmGray.50',
+          textAlign: 'center',
         }}>
-        <Box>
-          <AspectRatio w="100%" ratio={16 / 9}>
-            <Image
-              source={{
-                uri: 'https://www.holidify.com/images/cmsuploads/compressed/Bangalore_citycover_20190613234056.jpg',
-              }}
-              alt="image"
-            />
-          </AspectRatio>
-          <Center
-            bg="violet.500"
-            _dark={{
-              bg: 'violet.400',
-            }}
-            _text={{
-              color: 'warmGray.50',
-              fontWeight: '700',
-              fontSize: 'xs',
-            }}
-            position="absolute"
-            bottom="0"
-            px="3"
-            py="1.5">
-            PHOTOS
-          </Center>
-        </Box>
-        <Stack p="4" space={3}>
-          <Stack space={2}>
-            <Heading size="md" ml="-1">
-              The Garden City
-            </Heading>
-            <Text
-              fontSize="xs"
-              _light={{
-                color: 'violet.500',
-              }}
-              _dark={{
-                color: 'violet.400',
-              }}
-              fontWeight="500"
-              ml="-0.5"
-              mt="-1">
-              The Silicon Valley of India.
+        <Stack>
+          <Stack>
+            <Text fontSize="lg" fontWeight="black" color={'warmGray.50'}>
+              Diciembre
             </Text>
+            <Heading
+              size="md"
+              ml="-1"
+              fontWeight={800}
+              fontSize={32}
+              color="lightText">
+              {availablePoints} pts
+            </Heading>
           </Stack>
-          <Text fontWeight="400">
-            Bengaluru (also called Bangalore) is the center of India's high-tech
-            industry. The city is also known for its parks and nightlife.
-          </Text>
-          <HStack alignItems="center" space={4} justifyContent="space-between">
-            <HStack alignItems="center">
-              <Text
-                color="coolGray.600"
-                _dark={{
-                  color: 'warmGray.200',
-                }}
-                fontWeight="400">
-                {translate('hello')}
-              </Text>
-            </HStack>
-          </HStack>
         </Stack>
       </Box>
-      <Footer />
+      <Stack space={0}>
+        <Text fontSize="lg" fontWeight="black" marginX={5} marginY={2}>
+          TUS MOVIMIENTOS
+        </Text>
+      </Stack>
+      <FlatList
+        margin={2}
+        data={products}
+        renderItem={({ item }) => (
+          <Box
+            borderBottomWidth="1"
+            _dark={{
+              borderColor: 'muted.50',
+            }}
+            borderColor="muted.800"
+            pl={['0', '4']}
+            pr={['0', '5']}
+            py="2">
+            <HStack space={[2, 3]} justifyContent="space-between">
+              <Avatar
+                size="48px"
+                source={{
+                  uri: item.image,
+                }}
+              />
+              <VStack>
+                <Text
+                  _dark={{
+                    color: 'warmGray.50',
+                  }}
+                  color="coolGray.800"
+                  bold>
+                  {item.product}
+                </Text>
+                <Text
+                  color="coolGray.600"
+                  _dark={{
+                    color: 'warmGray.200',
+                  }}>
+                  {item.createdAt}
+                </Text>
+              </VStack>
+              <Spacer />
+              <Text
+                fontSize="xs"
+                _dark={{
+                  color: 'warmGray.50',
+                }}
+                color="coolGray.800"
+                alignSelf="flex-start">
+                {item.is_redemption ? '+' : '-'}
+                {item.points}
+              </Text>
+            </HStack>
+          </Box>
+        )}
+        keyExtractor={item => item.id}
+      />
+      <Box alignItems="center" marginX={5}>
+        {displayAllProducts ? (
+          <HStack
+            mb="2.5"
+            mt="1.5"
+            space={2}
+            mx={{
+              base: 'auto',
+              md: '0',
+            }}>
+            <Button onPress={() => setRecords(2)} bg="blue.600" size={'lg'}>
+              Ganados
+            </Button>
+            <Button
+              onPress={() => setRecords(1)}
+              size="md"
+              bg="blue.600"
+              size={'lg'}>
+              Canjeados
+            </Button>
+          </HStack>
+        ) : (
+          <HStack
+            mb="2.5"
+            mt="1.5"
+            space={2}
+            mx={{
+              base: 'auto',
+              md: '0',
+            }}>
+            <Button onPress={() => setRecords(3)} width="100%" bg="blue.600">
+              Todos
+            </Button>
+          </HStack>
+        )}
+      </Box>
     </Box>
   );
 };
