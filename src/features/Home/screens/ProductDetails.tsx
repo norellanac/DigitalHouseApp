@@ -1,12 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import {
-  Box,
-  HStack,
-  Image,
-  Stack,
-  Text,
-  Button,
-} from 'native-base';
+import { Box, HStack, Image, Stack, Text, Button } from 'native-base';
 import { format } from 'date-fns';
 
 import React from 'react';
@@ -15,7 +8,7 @@ import { HomeStackParams } from './HomeStack';
 interface Props extends StackScreenProps<HomeStackParams, 'ProductDetails'> {}
 
 export const ProductDetails = ({ route, navigation }: Props) => {
-  const {product} = route.params;
+  const { product } = route.params;
   return (
     <>
       <Box backgroundColor={'violet.200'} width="100%" height={150}>
@@ -31,17 +24,7 @@ export const ProductDetails = ({ route, navigation }: Props) => {
           overflow="hidden"
           borderColor="coolGray.200"
           borderWidth="1"
-          _dark={{
-            borderColor: 'coolGray.600',
-            backgroundColor: 'gray.700',
-          }}
-          _web={{
-            shadow: 2,
-            borderWidth: 0,
-          }}
-          _light={{
-            backgroundColor: 'gray.50',
-          }}>
+          backgroundColor="gray.50">
           <Box p={50} alignItems="center">
             <Image
               alignSelf={'center'}
@@ -64,9 +47,9 @@ export const ProductDetails = ({ route, navigation }: Props) => {
                 new Date(product.createdAt),
                 "'Comprado el' d 'de' MMMM, yyyy",
               )}
-          </Text>
+            </Text>
             <Text color="coolGray.400" fontWeight={800} fontSize={14}>
-            Con esta compra acumulaste:
+              Con esta compra acumulaste:
             </Text>
           </Stack>
           <Text fontWeight="800" fontSize={24}>

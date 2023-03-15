@@ -13,10 +13,13 @@ import { NativeBaseProvider } from 'native-base';
 import { RootNavigator } from './src/routes/RootNavigator';
 import { store } from './src/redux/stores/store';
 import { Provider } from 'react-redux';
+import { BannerConnection } from './src/components/organisms';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 const LOCALIZATION_EVENT = 'change';
 
 function App(): JSX.Element {
+  const { isConnected } = useNetInfo();
   setI18nConfig();
 
   useEffect(() => {
@@ -31,7 +34,10 @@ function App(): JSX.Element {
   return (
     <Provider store={store}>
       <NativeBaseProvider>
-        <RootNavigator />
+        <>
+          {!isConnected && <BannerConnection />}
+          <RootNavigator />
+        </>
       </NativeBaseProvider>
     </Provider>
   );
