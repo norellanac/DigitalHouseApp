@@ -11,6 +11,8 @@ import {
   Stack,
   Text,
   VStack,
+  Skeleton,
+  Center,
 } from 'native-base';
 
 import React, { useEffect, useState } from 'react';
@@ -19,6 +21,26 @@ import { HomeStackParams } from './HomeStack';
 import { format } from 'date-fns';
 
 interface Props extends StackScreenProps<HomeStackParams, 'Home'> {}
+
+
+const loadingData = () => (
+  <Center w="100%">
+    {Array.from({ length: 5 }, (_, i) => (
+    <HStack w="90%" maxW="400" borderWidth="1" space={8} rounded="md" borderColor="coolGray.200"p="1">
+    <Skeleton flex="1" h="45" rounded="md" />
+    <VStack flex="3" space="4">
+    <HStack alignItems="center">
+      <Skeleton h="3" flex="2" rounded="full" />
+        <Skeleton size="5" rounded="full" />
+      </HStack>
+      <HStack alignItems="center">
+      <Skeleton h="3" flex="2" rounded="full" />
+      <Skeleton size="5" rounded="full" />
+      </HStack>
+    </VStack>
+  </HStack>))}
+</Center>
+);
 
 export const Landing = ({ route, navigation }: Props) => {
   const { isLoading, redemProducts, availablePoints, availableProducts, data } =
@@ -76,7 +98,7 @@ export const Landing = ({ route, navigation }: Props) => {
               fontWeight={800}
               fontSize={32}
               color="lightText">
-              {availablePoints?.toLocaleString('en-US')} pts
+              {isLoading? 'Cargando ':  availablePoints?.toLocaleString('en-US')} pts
             </Heading>
           </Stack>
       </Box>
@@ -85,7 +107,8 @@ export const Landing = ({ route, navigation }: Props) => {
           TUS MOVIMIENTOS
         </Text>
       </Stack>
-      <FlatList
+      {isLoading ? (loadingData()) : (
+        <FlatList
         margin={2}
         data={products}
         renderItem={({ item }) => (
@@ -138,6 +161,8 @@ export const Landing = ({ route, navigation }: Props) => {
         )}
         keyExtractor={item => item.id}
       />
+      )}
+
       <Box alignItems="center" marginX={5}>
         {displayAllProducts ? (
           <HStack
@@ -148,10 +173,11 @@ export const Landing = ({ route, navigation }: Props) => {
               base: 'auto',
               md: '0',
             }}>
-            <Button onPress={() => setRecords(2)} bg="blue.600" size={'lg'} px={45}>
+            <Button isLoading={isLoading} onPress={() => setRecords(2)} bg="blue.600" size={'lg'} px={45}>
               Ganados
             </Button>
             <Button
+            isLoading={isLoading}
               onPress={() => setRecords(1)}
               size="md"
               bg="blue.600"
@@ -169,7 +195,7 @@ export const Landing = ({ route, navigation }: Props) => {
               base: 'auto',
               md: '0',
             }}>
-            <Button onPress={() => setRecords(3)} width="100%" bg="blue.600">
+            <Button isLoading={isLoading} onPress={() => setRecords(3)} width="100%" bg="blue.600">
               Todos
             </Button>
           </HStack>
