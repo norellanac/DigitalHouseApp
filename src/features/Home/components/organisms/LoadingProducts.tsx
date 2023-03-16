@@ -1,5 +1,4 @@
-import { Center, HStack, Skeleton, VStack } from "native-base";
-
+import { Center, HStack, Skeleton, VStack } from 'native-base';
 
 import React from 'react';
 
@@ -8,6 +7,7 @@ export const LoadingProducts = () => {
     <Center w="100%">
       {Array.from({ length: 5 }, (_, i) => (
         <HStack
+          key={i}
           w="90%"
           maxW="400"
           borderWidth="1"

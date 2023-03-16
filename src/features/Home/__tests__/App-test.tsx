@@ -4,7 +4,7 @@
 
 import 'react-native';
 import React from 'react';
-import { LoadingProducts } from '../components/organisms/LoadingProducts';
+import { Test } from '../screens/Test';
 
 // Note: test renderer must be required after react-native.
 import { render } from '@testing-library/react-native';
@@ -16,9 +16,10 @@ const inset = {
 };
 
 it('renders correctly', () => {
-  render(
+  const wrapper = render(
     <NativeBaseProvider initialWindowMetrics={inset}>
-      <LoadingProducts />
+      <Test />
     </NativeBaseProvider>,
   );
+  wrapper.findByText('Test');
 });

@@ -17,3 +17,16 @@ jest.mock('react-native-localize', () => {
     // you can add other functions mock here that you are using
   };
 });
+
+
+//mocking react nantive navigation
+jest.mock("@react-navigation/native", () => {
+  const actualNav = jest.requireActual("@react-navigation/native")
+  return {
+    ...actualNav,
+    useFocusEffect: () => jest.fn(),
+    useNavigation: () => ({
+      navigate: jest.fn(),
+    }),
+  }
+})
