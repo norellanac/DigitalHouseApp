@@ -1,7 +1,7 @@
 import { Center, HStack, Skeleton, VStack } from "native-base";
 
 
-import React from 'react'
+import React from 'react';
 
 export const LoadingProducts = () => {
   return (
