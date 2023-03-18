@@ -1,21 +1,20 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import {
-  Box,
-  Button,
-  FlatList,
-  Heading,
-  HStack,
-  Stack,
-  Text,
-} from 'native-base';
+import { Box, FlatList, Heading, HStack, Stack, Text } from 'native-base';
 
 import React, { useEffect, useState } from 'react';
 import useProducts from '../../../hooks/useProducts';
 import { HomeStackParams } from './HomeStack';
 import { LoadingProducts } from '../components/organisms/LoadingProducts';
 import { ProductElemtList } from '../components/organisms/ProductElemtList';
+import { Platform, Button } from 'react-native';
 
 interface Props extends StackScreenProps<HomeStackParams, 'Home'> {}
+
+const testID = (id: string) => {
+  return Platform.OS === 'android'
+    ? { accessible: true, accessibilityLabel: id }
+    : { testID: id };
+};
 
 export const Landing = ({ route, navigation }: Props) => {
   const { isLoading, redemProducts, availablePoints, availableProducts, data } =
@@ -113,32 +112,23 @@ export const Landing = ({ route, navigation }: Props) => {
         {displayAllProducts ? (
           <HStack m={2} space={2}>
             <Button
-              isLoading={isLoading}
+              {...testID('Ganados')}
               onPress={() => setRecords(2)}
-              bg="blue.600"
-              size={'lg'}
-              px={45}>
-              Ganados
-            </Button>
-            <Button
-              isLoading={isLoading}
-              onPress={() => setRecords(1)}
-              size="md"
-              bg="blue.600"
-              px={45}
-              size={'lg'}>
-              Canjeados
-            </Button>
+              title={'Ganados'}
+            />
+           <Button
+              {...testID('Canjeados')}
+              onPress={() => setRecords(2)}
+              title={'Canjeados'}
+            />
           </HStack>
         ) : (
           <HStack space={2} m={2}>
             <Button
-              isLoading={isLoading}
-              onPress={() => setRecords(3)}
-              width="100%"
-              bg="blue.600">
-              Todos
-            </Button>
+              {...testID('Todos')}
+              onPress={() => setRecords(2)}
+              title={'Todos'}
+            />
           </HStack>
         )}
       </Box>

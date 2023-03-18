@@ -12,10 +12,18 @@ import React from 'react';
 import { Product } from '../../../../redux/slices/productSlice';
 import { format } from 'date-fns';
 
+
+const testID = (id: string) => {
+  return Platform.OS === 'android'
+    ? { accessible: true, accessibilityLabel: id }
+    : { testID: id };
+};
+
 export const ProductElemtList = ({ item }: { item: Product }) => {
   const navigation = useNavigation();
   return (
     <Pressable
+    {...testID('ProductElemtList')}
       onPress={() => navigation.navigate('ProductDetails', { product: item })}>
       <Box borderColor="muted.800" mx={5} py="2">
         <HStack space={2} justifyContent="space-between">

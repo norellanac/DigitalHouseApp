@@ -15,12 +15,15 @@ import { store } from './src/redux/stores/store';
 import { Provider } from 'react-redux';
 import { BannerConnection } from './src/components/organisms';
 import { useNetInfo } from '@react-native-community/netinfo';
+import { LogBox } from 'react-native';
 
 const LOCALIZATION_EVENT = 'change';
 
 function App(): JSX.Element {
   const { isConnected } = useNetInfo();
   setI18nConfig();
+
+  LogBox.ignoreAllLogs();
 
   useEffect(() => {
     // Listen for system locale changes, and update configuration accordingly.
